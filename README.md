@@ -250,3 +250,55 @@ ashuc1
 ashuc1
 
 ```
+
+### Cgroups in container 
+
+<img src="cg.png">
+
+### checking stats of running container 
+
+```
+[ashu@ip-172-31-29-84 ~]$ docker  stats
+
+CONTAINER ID   NAME         CPU %     MEM USAGE / LIMIT     MEM %     NET I/O         BLOCK I/O     PIDS
+e6e6855c0ce7   rameezc3     0.00%     2.027MiB / 7.664GiB   0.03%     990B / 0B       0B / 42.5kB   3
+df8db9197aaf   nikhilc2     0.01%     748KiB / 7.664GiB     0.01%     128kB / 127kB   0B / 0B       1
+2ba999fd6971   nikhilc1     0.01%     864KiB / 7.664GiB     0.01%     130kB / 128kB   0B / 47.1kB   1
+066f2ce4c389   avikc2       0.01%     280KiB / 7.664GiB     0.00%     158kB / 157kB   0B / 0B       1
+5b93e22fffbd   avikc1       0.01%     280KiB / 7.664GiB     0.00%     159kB / 158kB   0B / 8.19kB   1
+2cc41e8546f2   naveenc2     0.01%     532KiB / 7.664GiB     
+
+```
+
+### LImit ram 
+
+```
+ docker  run -d  --name ashuclimit  --memory 100M  alpine ping fb.com
+ 
+```
+
+### Limit CPU -- 
+
+```
+ docker  run -d  --name  ashucpulimit --cpuset-cpus=1 --cpu-shares=20  alpine ping google.com 
+
+==
+
+[ashu@ip-172-31-29-84 ~]$ docker  run -d  --name  ashucpulimit --cpuset-cpus=1 --cpu-shares=20  alpine ping google.com ^C
+[ashu@ip-172-31-29-84 ~]$ 
+[ashu@ip-172-31-29-84 ~]$ 
+[ashu@ip-172-31-29-84 ~]$ docker  run -d  --name  ashucpulimit1 --cpu-shares=30  alpine ping google.com 
+5356efa17e2ce2ec75d22e55b49b054c0c26843715f6a1475845788ce2cb6577
+[ashu@ip-172-31-29-84 ~]$ 
+
+```
+
+### restart policy of container 
+
+<img src="res.png">
+
+```
+  docker  run -d  --name  xyz  --restart  always  alpine ping fb.com
+```
+
+
