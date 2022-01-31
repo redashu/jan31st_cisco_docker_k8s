@@ -301,4 +301,21 @@ df8db9197aaf   nikhilc2     0.01%     748KiB / 7.664GiB     0.01%     128kB / 12
   docker  run -d  --name  xyz  --restart  always  alpine ping fb.com
 ```
 
+## Image building --
+
+<img src="build.png">
+
+## Source code -- to docker image 
+
+```
+cd  pythonimages/
+[ashu@ip-172-31-29-84 pythonimages]$ ls
+cisco.py  Dockerfile
+[ashu@ip-172-31-29-84 pythonimages]$ docker  build -t  ashupython:v1  . 
+Sending build context to Docker daemon  3.072kB
+Step 1/6 : FROM python
+ ---> e2e732b7951f
+Step 2/6 : LABEL name="ashutoshh"
+
+```
 
