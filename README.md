@@ -1,1 +1,4 @@
-# jan31st_cisco_docker_k8s
+# Plan of traning --
+
+<img src="plan.png">
+
