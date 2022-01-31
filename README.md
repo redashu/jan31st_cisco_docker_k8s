@@ -156,4 +156,97 @@ buildkit  containers  image  network  overlay2  plugins  runtimes  swarm  tmp  t
 
 <img src="dockerfinal.png">
 
+### creating container --
 
+<img src="cont1.png">
+
+### alpine container --
+
+<img src="alpine.png">
+
+##==
+
+```
+docker  run  -d  --name  ashuc1  alpine  ping  google.com 
+2de7b6da5c9591f597eae396a02599ac3a602ef069b4e657c6c004215cdee196
+[ashu@ip-172-31-29-84 ~]$ docker  ps
+CONTAINER ID   IMAGE     COMMAND             CREATED          STATUS          PORTS     NAMES
+2de7b6da5c95   alpine    "ping google.com"   11 seconds ago   Up 9 seconds              ashuc1
+d88e17a16218   alpine    "ping google.com"   44 seconds ago   Up 42 seconds             matloob
+
+```
+
+### list of running container --
+```
+docker  ps
+CONTAINER ID   IMAGE     COMMAND                CREATED         STATUS         PORTS     NAMES
+fcbc3f2b805a   alpine    "ping google.com"      3 minutes ago   Up 3 minutes             rameez01
+c5d4d6b2bf53   alpine    "ping gmail.com"       3 minutes ago   Up 3 minutes             anila2
+88d8eb17c3e0   centos    "ping www.cisco.com"   3 minutes ago   Up 3 minutes             nikhil
+f5d0f2540f31   alpine    "ping google.com"      4 minutes ago   Up 4 minutes             anila1
+a9496982ddd2   alpine    "ping google.com"      4 minutes ago   Up 4 minutes             prateek
+```
+
+### to check output container process
+
+```
+ 46  docker  logs  ashuc1 
+   47  docker  logs -f  ashuc1 
+```
+
+### stop a container 
+
+```
+docker  stop  ashuc1 
+ashuc1
+```
+
+### start the container --
+
+```
+docker  start  ashuc1 
+ashuc1
+
+```
+
+### access the container shell 
+
+```
+ 
+[ashu@ip-172-31-29-84 ~]$ docker exec  -it  ashuc1  sh 
+/ # 
+/ # 
+/ # whoami
+root
+/ # ls 
+bin    dev    etc    home   lib    media  mnt    opt    proc   root   run    sbin   srv    sys    tmp    usr    var
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:07  
+          inet addr:172.17.0.7  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:137 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:126 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:12794 (12.4 KiB)  TX bytes:11956 (11.6 KiB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # exit
+
+```
+
+### remove container 
+
+```
+$ docker  stop ashuc1
+ashuc1
+[ashu@ip-172-31-29-84 ~]$ docker  rm  ashuc1
+ashuc1
+
+```
