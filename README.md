@@ -84,5 +84,51 @@ CONTAINER ID   IMAGE            COMMAND                  CREATED          STATUS
 c0c707e1a321   ashupython:v1    "python3 /ashucode/c…"   38 seconds ago   Up 37 seconds             ashupyc1
 
 ```
+### images sharing with container registry 
+
+<img src="reg.png">
+
+### image format to push in docker hub 
+
+<img src="dh.png">
+
+### pushing image to docker hub 
+
+```
+[ashu@ip-172-31-29-84 pythonimages]$ docker  images   |  grep -i ashu
+ashupython          v2          033a4eb76f0e   About an hour ago   886MB
+ashupython          v1          2ff68235df68   About an hour ago   391MB
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ docker  tag   ashupython:v1   docker.io/dockerashu/ciscopython:pyfeb12022 
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ docker  images   |  grep -i ashu
+ashupython               v2           033a4eb76f0e   About an hour ago   886MB
+dockerashu/ciscopython   pyfeb12022   2ff68235df68   About an hour ago   391MB
+ashupython               v1           2ff68235df68   About an hour ago   391MB
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ docker  login  
+Login with your Docker ID to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+Username: dockerashu
+Password: 
+WARNING! Your password will be stored unencrypted in /home/ashu/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[ashu@ip-172-31-29-84 pythonimages]$ docker  push     dockerashu/ciscopython:pyfeb12022 
+The push refers to repository [docker.io/dockerashu/ciscopython]
+1828ab6bff53: Pushed 
+b623d36cc2bd: Pushed 
+f0ea5f780d7c: Pushed 
+389adea752cd: Mounted from library/fedora 
+pyfeb12022: digest: sha256:6db5b0efe8fb3ce7d83b4a0b0d0597864c327e0c3ddb172ce62ab4179b8b90c3 size: 1156
+[ashu@ip-172-31-29-84 pythonimages]$ 
+[ashu@ip-172-31-29-84 pythonimages]$ docker  logout 
+Removing login credentials for https://index.docker.io/v1/
+
+```
+
 
 
