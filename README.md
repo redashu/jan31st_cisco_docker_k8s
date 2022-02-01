@@ -384,4 +384,65 @@ eth0      Link encap:Ethernet  HWaddr 0A:3C:7E:6E:6D:D3
           
 ```
 
+### Bridge 
+
+<img src="brx.png">
+
+### docker custom bridges --
+
+```
+ 280  docker  network  create  ashubr1
+  281  docker  network  ls
+  282  docker  network  inspect  ashubr1
+  283  history 
+[ashu@ip-172-31-29-84 ashucompose]$ docker  network  create  ashubr2  --subnet 192.169.100.0/24  
+12358bcbba665af650d2dada0cb50a5e9091e39bd4184ee6dc18dbec4d74722a
+[ashu@ip-172-31-29-84 ashucompose]$ docker  network  ls
+NETWORK ID     NAME       DRIVER    SCOPE
+3cc14eeb06c7   anilabr1   bridge    local
+77eb6910e202   ashubr1    bridge    local
+12358bcbba66   ashubr2    bridge    local
+63057b70c64e   bridge     bridge    local
+038725bacc41   host       host      local
+fa28fea76b58   none       null      local
+[ashu@ip-172-31-29-84 ashucompose]$ docker  run -itd  --name ashuc11  --network ashubr1  alpine  
+77fbf870512624f1d40dd4416a8384d3bba27f750d436984685ab44a5d573e96
+[ashu@ip-172-31-29-84 ashucompose]$ docker  run -itd  --name ashuc22  --network ashubr2  alpine  
+cf4242386265551e3e78ab04199aa85cad37eda243516e46b89069c8a69119d1
+[ashu@ip-172-31-29-84 ashucompose]$ 
+[ashu@ip-172-31-29-84 ashucompose]$ docker  run -itd  --name ashuc33  --network ashubr2 --ip 192.169.100.200  alpine  
+a3bf5243ca2fde1b06113e211f5ae9561f1616f7fcefdf75930be23a2d7687c7
+[ashu@ip-172-31-29-84 ashucompose]$ docker exec  -it ashuc33 sh 
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:C0:A9:64:C8  
+          inet addr:192.169.100.200  Bcast:192.169.100.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:7 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:570 (570.0 B)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ping ashuc22
+PING ashuc22 (192.169.100.2): 56 data bytes
+64 bytes from 192.169.100.2: seq=0 ttl=64 time=0.188 ms
+64 bytes from 192.169.100.2: seq=1 ttl=64 time=0.082 ms
+64 bytes from 192.169.100.2: seq=2 ttl=64 time=0.089 ms
+^C
+--- ashuc22 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 0.082/0.119/0.188 ms
+/ # ping  ashuc11
+ping: bad address 'ashuc11'
+/ # 
+
+```
+
 
