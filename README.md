@@ -130,5 +130,120 @@ Removing login credentials for https://index.docker.io/v1/
 
 ```
 
+### pulling image from a different docker client -
 
+```
+
+ fire@ashutoshhs-MacBook-Air  ~  docker  pull  dockerashu/ciscopython:pyfeb12022 
+pyfeb12022: Pulling from dockerashu/ciscopython
+edad61c68e67: Extracting  8.356MB/54.65MB
+9504d90bef65: Downloading  87.02MB/190MB
+b128e8c540e3: Download complete 
+88df88746666: Download complete 
+
+
+```
+
+## Docker compose -- 
+
+<img src="compose.yaml">
+
+## installation --
+
+[compsoe install](https://docs.docker.com/compose/install/)
+
+### compsoe file 1
+
+<img src="compose1.png">
+
+### running compose file 
+
+```
+
+[ashu@ip-172-31-29-84 myimages]$ cd  ashucompose/
+[ashu@ip-172-31-29-84 ashucompose]$ ls
+docker-compose.yaml
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  up  -d 
+Creating network "ashucompose_default" with the default driver
+Creating ashuc123 ... done
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  ps
+  Name       Command     State   Ports
+--------------------------------------
+ashuc123   ping fb.com   Up           
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose images
+Container   Repository    Tag       Image Id       Size  
+---------------------------------------------------------
+ashuc123    alpine       latest   c059bfaa849c   5.586 MB
+
+```
+
+### compose more commands 
+
+```
+197  docker-compose  up  -d 
+  198  docker-compose  ps
+  199  docker-compose images
+  200  docker-compose  ps
+  201  ls
+  202  docker-compose  stop
+  203  docker-compose  ps
+  204  docker-compose  start
+  205  docker-compose  ps
+  206  history 
+[ashu@ip-172-31-29-84 ashucompose]$ ls
+docker-compose.yaml
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  ps
+  Name       Command     State   Ports
+--------------------------------------
+ashuc123   ping fb.com   Up           
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  stop
+Stopping ashuc123 ... done
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  rm
+Going to remove ashuc123
+Are you sure? [yN] y
+Removing ashuc123 ... done
+
+```
+
+### up and down 
+
+```
+ 
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose up -d
+Creating network "ashucompose_default" with the default driver
+Creating ashuc123 ... done
+[ashu@ip-172-31-29-84 ashucompose]$ 
+[ashu@ip-172-31-29-84 ashucompose]$ 
+[ashu@ip-172-31-29-84 ashucompose]$ docker-compose  down 
+Stopping ashuc123 ... done
+Removing ashuc123 ... done
+Removing network ashucompose_default
+
+```
+
+### compose example --
+
+```
+version: '3.8'
+services:
+ ashuapp3:
+  image: ashupython:v1111
+  build:
+   context: ../pythonimages
+   dockerfile: alpine.dockerfile
+  container_name: ashualpc11
+  
+ ashuapp2: 
+  image: ashupython:v1
+  container_name: ashupyc11
+
+ ashuapp1: # this is myfirst container app
+  image: alpine
+  container_name: ashuc123
+  command: ping fb.com 
+
+
+# docker run -itd --name ashuc123 alpine ping fb.com 
+
+```
 
