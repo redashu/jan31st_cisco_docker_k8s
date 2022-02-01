@@ -247,3 +247,141 @@ services:
 
 ```
 
+## Docker Networking --
+
+### Default network bridge 
+
+```
+ docker  network  ls
+NETWORK ID     NAME      DRIVER    SCOPE
+63057b70c64e   bridge    bridge    local
+038725bacc41   host      host      local
+fa28fea76b58   none      null      local
+[ashu@ip-172-31-29-84 ashucompose]$ docker  network  inspect  63057b70c64e
+[
+    {
+        "Name": "bridge",
+        "Id": "63057b70c64e625d8733055aa128a3d331b9e2d5838f444a391c85cff73abe8f",
+        "Created": "2022-02-01T04:04:41.669566334Z",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+
+```
+### checking ip address of container 
+
+```
+docker  inspect  ashuc1  |  grep -i ipaddress
+            "SecondaryIPAddresses": null,
+            "IPAddress": "172.17.0.2",
+                    "IPAddress": "172.17.0.2",
+                    
+```
+
+### check container network details from inside 
+
+```
+[ashu@ip-172-31-29-84 ashucompose]$ docker exec -it  ashuc1  sh 
+/ # ifconfig 
+eth0      Link encap:Ethernet  HWaddr 02:42:AC:11:00:02  
+          inet addr:172.17.0.2  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:13 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:1070 (1.0 KiB)  TX bytes:0 (0.0 B)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # route  -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0
+
+```
+
+### checking routing table --
+
+```
+ route  -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0
+172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0
+
+```
+
+
+### port forwarding in docker container 
+
+<img src="portf.png">
+
+### port forwarding --
+
+```
+docker run -itd  --name ashuwebc2  -p  8876:80  nginx 
+00b739a75c655f0808d453cae6cba2d02ca3bee25bf6616824358bef7c89ab00
+[ashu@ip-172-31-29-84 ashucompose]$ docker  ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                                               NAMES
+00b739a75c65   nginx     "/docker-entrypoint.…"   5 seconds ago    Up 4 seconds    0.0.0.0:8876->80/tcp, :::8876->80/tcp               ashuwebc2
+a5af0ba776a8   nginx     "/docker-entrypoint.…"   27 seconds ago   Up 26 seconds   80/tcp, 0.0.0.0:1235->8080/tcp, :::1235->8080/tcp   avikc2
+dd5fc4bc960c   nginx     "/docker-entrypoint.…"   33 seconds ago   Up 33 seconds   0.0.0.0:1234->80/tcp, :::1234->80/tcp               naveenwebc1
+
+```
+
+### Container with no network 
+
+```
+[ashu@ip-172-31-29-84 ashucompose]$ docker  network  ls
+NETWORK ID     NAME      DRIVER    SCOPE
+63057b70c64e   bridge    bridge    local
+038725bacc41   host      host      local
+fa28fea76b58   none      null      local
+[ashu@ip-172-31-29-84 ashucompose]$ docker  run -itd  --name ashunoet1  --network none  alpine 
+1b980ced391b43f0fdfed2f2b727a019987bf753bcc9932c2b49188c8af43921
+[ashu@ip-172-31-29-84 ashucompose]$ docker  exec -it ashunoet1  sh
+/ # ifconfig 
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+/ # ping google.com 
+ping: bad address 'google.com'
+/ # 
+
+```
+
+### Host network bridge 
+
+```
+]$ docker run -it --rm  --network host  alpine  sh 
+/ # ifconfig 
+docker0   Link encap:Ethernet  HWaddr 02:42:19:F5:4D:80  
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:19ff:fef5:4d80/64 Scope:Link
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:64884 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:82917 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:64285531 (61.3 MiB)  TX bytes:579818564 (552.9 MiB)
+
+eth0      Link encap:Ethernet  HWaddr 0A:3C:7E:6E:6D:D3  
+          inet addr:172.31.29.84  Bcast:172.31.31.255  Mask:255.255.240.0
+          inet6 addr: fe80::83c:7eff:fe6e:6dd3/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:9001  Met
+          
+```
+
+
