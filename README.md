@@ -196,5 +196,52 @@ e442ee9d8dd9: Pull complete
 
 <img src="etcd.png">
 
+## k8s cluster UP --
+
+<img src="setup.png">
+
+### Kubernetes client side software to connect api server
+
+```
+kubectl  version --client 
+Client Version: version.Info{Major:"1", Minor:"22", GitVersion:"v1.22.4", GitCommit:"b695d79d4f967c403a96986f1750a35eb75e75f1", GitTreeState:"clean", BuildDate:"2021-11-17T15:48:33Z", GoVersion:"go1.16.10", Compiler:"gc", Platform:"darwin/amd64"}
+
+```
+
+### connecting to k8s cluster ..
+
+```
+kubectl  cluster-info  --kubeconfig  admin.conf.txt  
+Kubernetes control plane is running at https://3.233.138.186:6443
+CoreDNS is running at https://3.233.138.186:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+```
+
+### copy admin.conf file to .kube/config file in any OS 
+
+```
+
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  cp -v admin.conf.txt  ~/.kube/config 
+admin.conf.txt -> /Users/fire/.kube/config
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl  cluster-info                                
+Kubernetes control plane is running at https://3.233.138.186:6443
+CoreDNS is running at https://3.233.138.186:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+
+```
+
+### checking node details 
+
+```
+ kubectl   get  nodes 
+NAME         STATUS   ROLES                  AGE   VERSION
+masternode   Ready    control-plane,master   49m   v1.23.3
+node1        Ready    <none>                 48m   v1.23.3
+node2        Ready    <none>                 48m   v1.23.3
+node3        Ready    <none>                 48m   v1.23.3
+```
+
 
 
