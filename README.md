@@ -142,3 +142,59 @@ docker  run -itd  --name webui -p 1234:9000  -v  /var/run/docker.sock:/var/run/d
 
 <img src="compose.png">
 
+
+
+### image building using SCM (GIt)
+
+```
+ docker  build  -t   dockerashu/tomcat:ciscoapp   https://github.com/redashu/javawebapp.git 
+Sending build context to Docker daemon  154.6kB
+Step 1/6 : FROM tomcat
+latest: Pulling from library/tomcat
+0c6b8ff8c37e: Already exists 
+412caad352a3: Already exists 
+e6d3e61f7a50: Already exists 
+461bb1d8c517: Already exists 
+e442ee9d8dd9: Pull complete 
+542c9fe4a7ba: Pull complete 
+
+```
+
+## Problem with ANY CRE -- docker / containerd / cri-o / rkt 
+
+<img src="probcre.png">
+
+### container orchestration tools 
+
+<img src="corch.png">
+
+# Intro to kubernetes -- k8s 
+
+## Architecture -- 
+
+### infra --
+
+<img src="infra.png">
+
+### minion side agent -- kubelet 
+
+<img src="kubelet.png">
+
+### k8s architecture 
+
+### master node / control plane --
+
+## kube-apiserver 
+
+<img src="apiserver.png">
+
+## kube-schedular --
+
+<img src="sch.png">
+
+## etcd 
+
+<img src="etcd.png">
+
+
+
