@@ -243,5 +243,18 @@ node2        Ready    <none>                 48m   v1.23.3
 node3        Ready    <none>                 48m   v1.23.3
 ```
 
+### app deploy in k8s -- using POd concept 
+
+<img src="pod1.png">
+
+### Deploy yaml 
+
+```
+kubectl  apply -f  ashupod1.yaml 
+pod/ashupod-1 created
+ fire@ashutoshhs-MacBook-Air  ~/Downloads/ashuapps  kubectl get  pods               
+NAME        READY   STATUS    RESTARTS   AGE
+ashupod-1   1/1     Running   0          8s
+```
 
 
