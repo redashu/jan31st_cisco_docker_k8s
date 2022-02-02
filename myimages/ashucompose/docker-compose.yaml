@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+ ashuapp3:
+  image: ashupython:v1111
+  build:
+   context: ../pythonimages
+   dockerfile: alpine.dockerfile
+  container_name: ashualpc11
+  
+ ashuapp2: 
+  image: ashupython:v1
+  container_name: ashupyc11
+
+ ashuapp1: # this is myfirst container app
+  image: alpine
+  container_name: ashuc123
+  command: ping fb.com 
+
+
+# docker run -itd --name ashuc123 alpine ping fb.com 
