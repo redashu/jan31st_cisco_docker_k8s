@@ -256,5 +256,65 @@ pod/ashupod-1 created
 NAME        READY   STATUS    RESTARTS   AGE
 ashupod-1   1/1     Running   0          8s
 ```
+### check pod scheduled nodes
+
+```
+kubectl  get  pods -o wide
+NAME          READY   STATUS    RESTARTS   AGE     IP              NODE    NOMINATED NODE   READINESS GATES
+anilapod-1    1/1     Running   0          32m     192.168.104.2   node2   <none>           <none>
+ashupod-1     1/1     Running   0          33m     192.168.104.1   node2   <none>           <none>
+avikpod-1     1/1     Running   0          33m     192.168.135.1   node3   <none>           <none>
+matloob1      1/1     Running   0          33m     192.168.135.2   node3   <none>           <none>
+nikhilp-1     1/1     Running   0          28m     192.168.135.3   node3   <none>           <none>
+pratpod-1     1/1     Running   0          31m     192.168.104.3   node2   <none>           <none>
+rameezpod-1   1/1     Running   0          5m34s   192.168.135.4   node3   <none>           <none>
+wasifpod-1    1/1     Running   0          27m     192.168.104.4   node2   <none>           <none>
+```
+
+### checking logs and accessing containers inside pod 
+
+```
+0027  kubectl  logs -f  ashupod-1
+ fire@ashutoshhs-MacBook-Air  ~/Downloads/ashuapps  kubectl  get  pods         
+NAME          READY   STATUS    RESTARTS   AGE
+anilapod-1    1/1     Running   0          35m
+ashupod-1     1/1     Running   0          35m
+avikpod-1     1/1     Running   0          35m
+matloob1      1/1     Running   0          35m
+mradulpod-1   1/1     Running   0          112s
+nikhilp-1     1/1     Running   0          30m
+pratpod-1     1/1     Running   0          34m
+rameezpod-1   1/1     Running   0          7m52s
+wasifpod-1    1/1     Running   0          29m
+ fire@ashutoshhs-MacBook-Air  ~/Downloads/ashuapps  
+ fire@ashutoshhs-MacBook-Air  ~/Downloads/ashuapps  kubectl  exec -it  ashupod-1  -- sh 
+/ # 
+/ # 
+/ # cat  /etc/os-release 
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.15.0
+PRETTY_NAME="Alpine Linux v3.15"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://bugs.alpinelinux.org/"
+/ # exit
+
+```
+
+### delete pod 
+
+```
+kubectl delete pod  ashupod-1 
+pod "ashupod-1" deleted
+
+```
+
+### describe pod 
+
+```
+kubectl  describe pod  anilapod-1
+
+```
+
 
 
