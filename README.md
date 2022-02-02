@@ -94,3 +94,51 @@ root@23f04e4ef99b:/ok# rmdir this
 rmdir: failed to remove 'this': Read-only file system
 
 ```
+
+### attaching multiple volume to containers 
+
+```
+ docker  run -it --rm   -v  ashuvol:/ok:ro   -v  ashuvol123:/new:rw      ubuntu 
+root@93793c38cc52:/# ls
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  new  ok  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@93793c38cc52:/# cd  /new/
+root@93793c38cc52:/new# ls
+root@93793c38cc52:/new# mkdir hi
+root@93793c38cc52:/new# echo hello >a.txt 
+root@93793c38cc52:/new# ls
+a.txt  hi
+root@93793c38cc52:/new# cd /ok/
+root@93793c38cc52:/ok# ls
+hello  is  persistent  this  world
+root@93793c38cc52:/ok# rmdir hello 
+rmdir: failed to remove 'hello': Read-only file system
+root@93793c38cc52:/ok# exit
+exit
+
+```
+
+### host path to container 
+
+```
+
+[ashu@ip-172-31-29-84 myimages]$ docker  run -it --rm   -v  ashuvol:/ok:ro   -v  ashuvol123:/new:rw   -v  /etc:/etc1:ro   ubuntu 
+root@68b6f89c1623:/# cd  /etc1/
+root@68b6f89c1623:/etc1# ls
+DIR_COLORS               cron.monthly       hibagent-config.cfg  man_db.conf        protocols         shells
+DIR_COLORS.256color      cron.weekly        hibinit-config.cfg   mke2fs.conf        python            skel
+DIR_COLORS.lightbgcolor  crontab            host.conf            modprobe.d         rc.d              ssh
+GREP_COLORS              csh.cshrc          hostname             modules-load.d     rc.local          ssl
+GeoIP.conf               csh.login          hosts  
+
+```
+
+### webui using portainer 
+
+```
+docker  run -itd  --name webui -p 1234:9000  -v  /var/run/docker.sock:/var/run/docker.sock        portainer/portainer
+```
+
+### compsoe example for portainer 
+
+<img src="compose.png">
+
