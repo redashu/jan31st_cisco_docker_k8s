@@ -245,3 +245,66 @@ kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          24h
 
 ```
 
+### merging yaml
+
+```
+$ ls
+ashufinalapp.yaml  ashuwebpod.yaml  autopod.yaml  svc1.yaml  webpod.json
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl apply -f ashufinalapp.yaml 
+pod/hellopod created
+service/ashusvc1 created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get po 
+NAME       READY   STATUS    RESTARTS   AGE
+hellopod   1/1     Running   0          10s
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get svc
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+ashusvc1     NodePort    10.101.24.122   <none>        1234:31775/TCP   14s
+kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          3m5s
+[ashu@ip-172-31-29-84 depoyapps]$ 
+
+```
+
+### namespaces 
+
+<img src="ns.png">
+
+### creating custom namespaces 
+
+```
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl  create  namespace  ashu-space
+namespace/ashu-space created
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl get  ns
+NAME              STATUS   AGE
+ashu-space        Active   5s
+default           Active   25h
+
+```
+### kube-system for internal k8s 
+
+```
+ kubectl   get po -n kube-system 
+NAME                                       READY   STATUS    RESTARTS      AGE
+calico-kube-controllers-566dc76669-s9msd   1/1     Running   1 (20h ago)   25h
+calico-node-b75cn                          1/1     Running   1 (20h ago)   25h
+calico-node-g24s6                          1/1     Running   1 (20h ago)   25h
+calico-node-hwd8v                          1/1     Running   1 (20h ago)   25h
+calico-node-knhtg                          1/1     Running   1 (20h ago)   25h
+coredns-64897985d-94w8k                    1/1     Running   1 (20h ago)   25h
+coredns-64897985d-mnvn9                    1/1     Running   1 (20h ago)   25h
+etcd-masternode                            1/1     Running   1 (20h ago)   25h
+kube-apiserver-masternode                  1/1     Running   1 (20h ago)   25
+
+```
+
+### setting default namespaces 
+
+```
+ kubectl  config set-context --current --namespace=ashu-space
+Context "kubernetes-admin@kubernetes" modified.
+[ashu@ip-172-31-29-84 myimages]$ kubectl  config get-contexts 
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   ashu-space
+[ashu@ip-172-31-29-84 myimages]$ kubectl  get  pods
+No resources found in ashu-space namespace.
+```
+
