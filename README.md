@@ -179,3 +179,69 @@ hellopod   1/1     Running   0          4s
 
 <img src="podlabel.png">
 
+## service type in k8s 
+
+<img src="stype.png">
+
+### Nodeport service in k8s
+
+<img src="np.png">
+
+### creating service of Nodeport type
+
+```
+ kubectl   create  service  
+Create a service using a specified subcommand.
+
+Aliases:
+service, svc
+
+Available Commands:
+  clusterip    Create a ClusterIP service
+  externalname Create an ExternalName service
+  loadbalancer Create a LoadBalancer service
+  nodeport     Create a NodePort service
+  
+  
+  ====
+  
+  
+  kubectl   create  service  nodeport   ashusvc1  --tcp  1234:80   --dry-run=client -o yaml   
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashusvc1
+  name: ashusvc1
+spec:
+  ports:
+  - name: 1234-80
+    port: 1234
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashusvc1
+  type: NodePort
+status:
+  loadBalancer: {}
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl   create  service  nodeport   ashusvc1  --tcp  1234:80   --dry-run=client -o yaml >svc1.yaml  
+
+```
+
+### creating service THe INternal LB 
+
+```
+$ cd  depoyapps/
+[ashu@ip-172-31-29-84 depoyapps]$ ls
+ashuwebpod.yaml  autopod.yaml  svc1.yaml  webpod.json
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  apply -f svc1.yaml 
+service/ashusvc1 created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl   get  service
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+ashusvc1     NodePort    10.111.240.227   <none>        1234:32086/TCP   23s
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          24h
+[ashu@ip-172-31-29-84 depoyapps]$ 
+
+```
+
