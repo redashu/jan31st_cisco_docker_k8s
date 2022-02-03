@@ -88,3 +88,94 @@ avikpod1        0/1     ImagePullBackOff   0          17s
 
 ```
 
+### generate yaml / json using cli 
+
+```
+ kubectl  run   hellopod --image=dockerashu/cisco:feb32022  --port 80 --dry-run=client -o yaml 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: hellopod
+  name: hellopod
+spec:
+  containers:
+  - image: dockerashu/cisco:feb32022
+    name: hellopod
+    ports:
+    - containerPort: 80
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+
+```
+
+### JSON 
+
+```
+kubectl  run   hellopod --image=dockerashu/cisco:feb32022  --port 80 --dry-run=client -o json 
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+
+```
+
+### save output in a file 
+
+```
+426  kubectl  run   hellopod --image=dockerashu/cisco:feb32022  --port 80 --dry-run=client -o yaml   >autopod.yaml 
+  427  kubectl  run   hellopod --image=dockerashu/cisco:feb32022  --port 80 --dry-run=client -o json   >webpod.json 
+  
+```
+
+### deploy pod using auto gen yaml 
+
+```
+ 403  ls
+[ashu@ip-172-31-29-84 depoyapps]$ ls
+ashuwebpod.yaml  autopod.yaml  webpod.json
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl apply -f  autopod.yaml 
+pod/hellopod created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get pods
+NAME       READY   STATUS    RESTARTS   AGE
+hellopod   1/1     Running   0          4s
+[ashu@ip-172-31-29-84 depoyapps]$ 
+```
+
+## K8s Networking --
+
+### Host level Networking --
+
+<img src="hostnet.png">
+
+## POD networking is maintained by CNI --plugins -- we are using calico CNI 
+
+<img src="cni.png">
+
+### CNM / CNI 
+
+<img src="cni1.png">
+
+### Internal LB by k8s 
+
+<img src="lb.png">
+
+### Deep net 
+
+<img src="net1.png">
+
+## Service Intro in k8s 
+
+<img src="svc.png">
+
+### service will use label to find respected PODs 
+
+<img src="label.png">
+
+### pods labels 
+
+<img src="podlabel.png">
+
