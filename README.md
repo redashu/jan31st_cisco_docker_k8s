@@ -307,4 +307,13 @@ CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPAC
 [ashu@ip-172-31-29-84 myimages]$ kubectl  get  pods
 No resources found in ashu-space namespace.
 ```
+## scaling in k8s 
+
+<img src="sclae.png">
+
+### Node controller 
+
+<img src="nc.png">
+
+
 
