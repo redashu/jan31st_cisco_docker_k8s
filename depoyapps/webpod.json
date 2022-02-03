@@ -1,0 +1,28 @@
+{
+    "kind": "Pod",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "hellopod",
+        "creationTimestamp": null,
+        "labels": {
+            "run": "hellopod"
+        }
+    },
+    "spec": {
+        "containers": [
+            {
+                "name": "hellopod",
+                "image": "dockerashu/cisco:feb32022",
+                "ports": [
+                    {
+                        "containerPort": 80
+                    }
+                ],
+                "resources": {}
+            }
+        ],
+        "restartPolicy": "Always",
+        "dnsPolicy": "ClusterFirst"
+    },
+    "status": {}
+}
