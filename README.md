@@ -278,4 +278,82 @@ ingress.networking.k8s.io/ashuapp-rule created
 NAME           CLASS   HOSTS                ADDRESS        PORTS   AGE
 ashuapp-rule   nginx   cisco.ashutoshh.in   172.31.29.26   80      7s
 ```
+### Minikube based setup / switching between cluster 
+
+```
+10075  minikube version 
+10076  minikube start  --driver=docker 
+10077  kubectl  get  nodes
+10078  kubectl  get  ns
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  minikube status
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl get nodes
+NAME       STATUS   ROLES                  AGE   VERSION
+minikube   Ready    control-plane,master   26m   v1.23.1
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl config get-contexts 
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+          kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   ashu-space
+*         minikube                      minikube     minikube           default
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl  config use-context  kubernetes-admin@kubernetes
+Switched to context "kubernetes-admin@kubernetes".
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl config get-contexts                             
+CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPACE
+*         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   ashu-space
+          minikube                      minikube     minikube           default
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl  get  nodes
+NAME         STATUS   ROLES                  AGE    VERSION
+masternode   Ready    control-plane,master   2d2h   v1.23.3
+node1        Ready    <none>                 2d2h   v1.23.3
+node2        Ready    <none>                 2d2h   v1.23.3
+node3        Ready    <none>                 2d2h   v1.23.3
+```
+
+### HPA in k8s 
+<img src="hpa.png">
+
+### Deploy metric server for HPA support 
+
+```
+kubectl  apply -f  https://raw.githubusercontent.com/redashu/k8s/hpa/hpa/components.yaml
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+```
+
+### HPA rule 
+
+```
+kubectl  get  deploy 
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashuconnect   1/1     1            1           117m
+ashuhome      1/1     1            1           138m
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get  hpa
+No resources found in ashu-space namespace.
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  autoscale deploy ashuhome  --min=3 --max=20  --cpu-percent=80 
+horizontalpodautoscaler.autoscaling/ashuhome autoscaled
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get  deploy 
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashuconnect   1/1     1            1           118m
+ashuhome      1/1     1            1           140m
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get  deploy 
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+ashuconnect   1/1     1            1           119m
+ashuhome      1/1     1            1           140m
+
+```
+
 
