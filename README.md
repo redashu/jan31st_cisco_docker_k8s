@@ -167,4 +167,30 @@ kubernetes-dashboard-token-h9fnq   kubernetes.io/service-account-token   3      
 [ashu@ip-172-31-29-84 depoyapps]$ kubectl  describe  secret  kubernetes-dashboard-token-h9fnq  -n  kubernetes-dashboard 
 
 ```
+### NP and LB svc 
+
+```
+kubectl expose deploy ashuweb   --type LoadBalancer  --port 80 --name ashusvc2
+service/ashusvc2 exposed
+[ashu@ip-172-31-29-84 myimages]$ kubectl  get  svc 
+NAME       TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+ashusvc1   NodePort       10.107.242.181   <none>        80:32026/TCP   102m
+ashusvc2   LoadBalancer   10.101.158.125   <pending>     80:32043/TCP   5s
+[ashu@ip-172-31-29-84 myimages]$ kubectl  get  svc 
+NAME       TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+ashusvc1   NodePort       10.107.242.181   <none>        80:32026/TCP   104m
+ashusvc2   LoadBalancer   10.101.158.125   <pending>     80:32043/TCP   2m39s
+```
+
+## Multiple app LB are not required we can use Ingress controller --
+
+<img src="ingress.png">
+
+### deploy Ingress --
+
+```
+kubectl apply -f https://raw.githubusercontent.com/redashu/k8s/ssl/nginx-ingress-controller.yamlnamespace/ingress-nginx created
+serviceaccount/ingress-nginx created
+```
+
 
