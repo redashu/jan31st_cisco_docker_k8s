@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuhome
+  name: ashuhome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuhome
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuhome
+    spec:
+      containers:
+      - image: dockerashu/ciscowebapp:homepage
+        name: ciscowebapp
+        resources: 
+         requests:
+          cpu: 100m # 1 core -- 1000 mili core 
+          memory: 300M 
+         limits: # max limit of pod 
+          cpu: 300m 
+          memory: 600M 
+status: {}
+# homepage svc 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuhome
+  name: homesvc
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashuhome
+  type: ClusterIP # service type 
+status:
+  loadBalancer: {}
+# rules of ingress 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ashuapp-rule # name of rule 
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx # newer Nginx-Ingress versions NEED THIS
+  rules:
+  - host: cisco.ashutoshh.in # domain name of app 
+    http:
+      paths:
+      - path: / # / means default page which is home for us 
+        pathType: Prefix
+        backend:
+          service:
+            name: homesvc # name of service 
+            port:
+              number: 80
+      - path: /connect  # url page 
+        pathType: Prefix
+        backend:
+          service:
+            name: ashuconn # name of service 
+            port:
+              number: 80

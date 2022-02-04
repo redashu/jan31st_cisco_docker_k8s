@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuweb
+  name: ashuweb # name of deployment 
+spec:
+  replicas: 1 # no of pod we want initially 
+  selector:
+    matchLabels:
+      app: ashuweb
+  strategy: {}
+  template: # will be used by deployment to create pods 
+    metadata:
+      creationTimestamp: null
+      labels: # label of pod
+        app: ashuweb
+    spec:
+      containers:
+      - image: dockerashu/cisco:feb32022
+        name: cisco
+        env: # changing env value 
+        - name: deploy
+          value: app3 
+        resources: {}
+status: {}

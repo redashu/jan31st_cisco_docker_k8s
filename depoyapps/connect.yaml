@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuconnect
+  name: ashuconnect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ashuconnect
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: ashuconnect
+    spec:
+      containers:
+      - image: dockerashu/ciscowebapp:connect
+        name: ciscowebapp
+        resources: {}
+status: {}
+# service of connect
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuconnect
+  name: ashuconn
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ashuconnect
+  type: ClusterIP
+status:
+  loadBalancer: {}

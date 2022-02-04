@@ -1,0 +1,19 @@
+PING fb.com (157.240.229.35): 56 data bytes
+64 bytes from 157.240.229.35: seq=0 ttl=48 time=0.460 ms
+64 bytes from 157.240.229.35: seq=1 ttl=48 time=0.493 ms
+64 bytes from 157.240.229.35: seq=2 ttl=48 time=0.502 ms
+64 bytes from 157.240.229.35: seq=3 ttl=48 time=0.517 ms
+64 bytes from 157.240.229.35: seq=4 ttl=48 time=0.509 ms
+64 bytes from 157.240.229.35: seq=5 ttl=48 time=0.519 ms
+64 bytes from 157.240.229.35: seq=6 ttl=48 time=0.501 ms
+64 bytes from 157.240.229.35: seq=7 ttl=48 time=0.509 ms
+64 bytes from 157.240.229.35: seq=8 ttl=48 time=0.509 ms
+64 bytes from 157.240.229.35: seq=9 ttl=48 time=0.489 ms
+64 bytes from 157.240.229.35: seq=10 ttl=48 time=0.533 ms
+64 bytes from 157.240.229.35: seq=11 ttl=48 time=0.495 ms
+64 bytes from 157.240.229.35: seq=12 ttl=48 time=0.501 ms
+64 bytes from 157.240.229.35: seq=13 ttl=48 time=0.491 ms
+64 bytes from 157.240.229.35: seq=14 ttl=48 time=0.503 ms
+64 bytes from 157.240.229.35: seq=15 ttl=48 time=0.503 ms
+64 bytes from 157.240.229.35: seq=16 ttl=48 time=0.506 ms
+64 bytes from 157.240.229.35: seq=17 ttl=48 time=0.507 ms

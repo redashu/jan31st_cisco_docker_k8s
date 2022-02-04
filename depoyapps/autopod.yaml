@@ -11,6 +11,9 @@ spec:
     name: hellopod # name of container 
     ports: # container app port 
     - containerPort: 80
+    env: # set  / change env variable values
+    - name: deploy
+      value: app2
     resources: {}
   dnsPolicy: ClusterFirst
   restartPolicy: Always
