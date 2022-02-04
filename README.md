@@ -193,4 +193,89 @@ kubectl apply -f https://raw.githubusercontent.com/redashu/k8s/ssl/nginx-ingress
 serviceaccount/ingress-nginx created
 ```
 
+## Micros service example 
+
+### Home page deployment --
+
+```
+kubectl  create  deployment  ashuhome  --image=dockerashu/ciscowebapp:homepage   --dry-run=client -o yaml  >home.yaml
+```
+
+### --
+
+```
+ kubectl apply -f home.yaml 
+deployment.apps/ashuhome created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get  deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashuhome   0/1     1            0           6s
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get  deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashuhome   1/1     1            1           11s
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get po 
+NAME                        READY   STATUS    RESTARTS   AGE
+ashuhome-75cf5dcbc8-xh44w   1/1     Running   0          15s
+
+```
+
+### expose service 
+
+```
+kubectl  get  deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashuhome   1/1     1            1           105s
+ fire@ashutoshhs-MacBook-Air  ~/Desktop  kubectl  expose deploy ashuhome  --type NodePort --port 80 --name homesvc --dry-run=client  -o yaml 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ashuhome
+
+```
+
+### creating service 
+
+```
+ kubectl  apply -f home.yaml 
+deployment.apps/ashuhome configured
+service/homesvc created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get deploy 
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+ashuhome   1/1     1            1           4m30s
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl  get svc
+NAME      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+homesvc   NodePort   10.109.46.254   <none>        80:30691/TCP   13s
+```
+
+### INgress rules 
+
+<img src="rules.yaml">
+
+### checking all api-resources for reference 
+
+```
+kubectl  api-resources  
+NAME                              SHORTNAMES   APIVERSION                             NAMESPACED   KIND
+bindings                                       v1                                     true         Binding
+componentstatuses                 cs           v1                                     false        ComponentStatus
+configmaps                        cm           v1                                     true         ConfigMap
+endpoints                         ep           v1                                     true         Endpoints
+events                            ev           v1                                     true         Event
+limitranges                       limits       v1                                     true         LimitRange
+namespaces                        ns           v1          
+
+```
+
+### rule creation 
+
+```
+ kubectl  apply -f  home.yaml 
+deployment.apps/ashuhome configured
+service/homesvc configured
+ingress.networking.k8s.io/ashuapp-rule created
+[ashu@ip-172-31-29-84 depoyapps]$ kubectl   get  ingress
+NAME           CLASS   HOSTS                ADDRESS        PORTS   AGE
+ashuapp-rule   nginx   cisco.ashutoshh.in   172.31.29.26   80      7s
+```
 
